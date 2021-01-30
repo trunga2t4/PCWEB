@@ -18,6 +18,7 @@ class CreatePostsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedFloat('rating')->nullable();
             $table->unsignedBigInteger('review')->nullable();
+            $table->unsignedBigInteger('bookmark')->nullable();
             $table->text('caption');
             $table->string('image');
 

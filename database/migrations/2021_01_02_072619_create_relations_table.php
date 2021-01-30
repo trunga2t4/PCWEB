@@ -21,7 +21,7 @@ class CreateRelationsTable extends Migration
             $table->timestamps();
 
             $table->foreign('follower_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('followee_id')->references('id')->on('posts')->onDelete('cascade');
+            $table->foreign('followee_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

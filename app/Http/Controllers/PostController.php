@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Bookmarks;
+use App\Models\Reviews;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -55,6 +57,7 @@ class PostController extends Controller
         $post->image = $imagePath;
         $post->rating = null;
         $post->review = 0;
+        $post->bookmark = 0;
         $saved = $post->save();
 
         // if it saved, we send them to the profile page
@@ -74,11 +77,18 @@ class PostController extends Controller
         $post = Post::where('id', $postID)->first();
         $user = Auth::user();
         $user2 = User::where('id', $post->user_id)->first();
+        $reviews = Reviews::where('post_id', $post->id)
+            ->join('users', 'user_id', '=', 'users.id')->get();
+        $yourReview = Reviews::where('post_id', $post->id)->where('user_id', $user->id)->first();
+        $yourBookmark = Bookmarks::where('post_id', $post->id)->where('user_id', $user->id)->first();
 
         return view('post.show', [
             'post' => $post,
             'user' => $user,
-            'user2' => $user2
+            'user2' => $user2,
+            'reviews' => $reviews,
+            'yourReview' => $yourReview,
+            'yourBookmark' => $yourBookmark
         ]);
     }
 

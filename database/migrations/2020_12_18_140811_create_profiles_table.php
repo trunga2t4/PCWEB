@@ -24,12 +24,6 @@ class CreateProfilesTable extends Migration
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
-        DB::table('profiles')->insert(
-            array(
-                'user_id' => 1,
-                'description' => 'This is the Admin account',
-            )
-        );
     }
 
     /**

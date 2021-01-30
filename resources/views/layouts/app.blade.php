@@ -15,20 +15,24 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+<!--
 <div id="loading">
   <img id="loading-image" src="/images/loading.gif" alt="Loading..." />
 </div>
+-->
     <div id="app" class="container">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <h1><b>The Beauty of Nature</b></h1>
+                    <h1><b>Your Trip Is Mine</b></h1>
+                    Share your trip, it can be mine someday!
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -61,6 +65,7 @@
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
+
                         @else
                           <li class="nav-item">
                                 <a class="nav-link" href="{{ route('post.create') }}">Create post</a>
@@ -68,13 +73,21 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('profile') }}">Profile</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('bookmark.index') }}">Bookmarks</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('relation.index') }}">Follows</a>
+                            </li>
 
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
-
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    @if (Route::has('changepassword'))
+                                            <a class="nav-link" href="{{ route('changepassword') }}">{{ __('Change Password') }}</a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -93,13 +106,10 @@
         </nav>
 
 
-<div id = weather>
-</div>
-
-
-        <main class="py-4">
+<div id = "weather" class = "card"> </div>
+    <main>
             @yield('content')
-        </main>
-    </div>
+    </main>
+</div>
 </body>
 </html>

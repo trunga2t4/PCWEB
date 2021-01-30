@@ -26,7 +26,7 @@ $(document).ready(function() {
         request.onload = function() {
             var weatherInfo = request.response;
             console.log(HTMLtext);
-            var HTMLtext = `<div class="container"><div class="row">`;
+            var HTMLtext = `<div class="container pt-3"><div class="row">`;
             HTMLtext += `<div class="col-sm-3 col-md-2 col-lg-2"> <h3><b>Local Weather</b><h3></div>`;
             HTMLtext += `<div class="col-sm-9 col-md-10 col-lg-10"><div class="row">`;
             HTMLtext += `<div class="col-sm-4 col-md-3 col-lg-2"> <div class="row"><b>Temperature:</b></div> <div class="row">${weatherInfo.current.temp} &#8451</div></div>`;

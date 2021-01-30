@@ -32,7 +32,11 @@ Route::get('/profile/edit', [App\Http\Controllers\ProfileController::class, 'edi
 Route::post('/profile/{id}/update', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 
 
-
+Route::get('changepassword', [App\Http\Controllers\ChangePasswordController::class, 'index']);
+Route::post('changepassword', [App\Http\Controllers\ChangePasswordController::class, 'store'])->name('changepassword');
 
 
 Route::resource('post', App\Http\Controllers\PostController::class);
+Route::resource('relation', App\Http\Controllers\RelationsController::class);
+Route::resource('review', App\Http\Controllers\ReviewsController::class);
+Route::resource('bookmark', App\Http\Controllers\BookmarksController::class);

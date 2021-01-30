@@ -3,18 +3,18 @@
 @section('content')
     <div class="container">
        <div class="row">
-           <div class="col-sm-2 col-md-3 col-lg-4"></div>
-          <div class="col-sm-8 col-md-6 col-lg-4 card ">
+           <div class="col-sm-1 col-md-2 col-lg-2"></div>
+          <div class="col-sm-10 col-md-8 col-lg-8 card ">
                <form action="{{ route('post.update', $post) }}" enctype="multipart/form-data" method="post">
                    @csrf
                    <input name="_method" type="hidden" value="PATCH">
 
                    <div class="form-group row ">
-                        <label for="postpic">Current post picture</label>
+                        <label for="postpic" class="px-3">Current post picture</label>
                     </div>
 
                     <div class="form-group row justify-content-center">
-                        <img class="w-100 p-3" src="/storage/{{ $post->image }}">
+                        <img class="w-100 px-3" src="/storage/{{ $post->image }}">
                     </div>
 
                     <div class="form-group row justify-content-center">
@@ -22,8 +22,8 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="caption">Edit your caption</label>
-                        <input class="form-control" type="text" name="caption" id="caption" value="{{ $post->caption }}">
+                        <label class="px-3" for="caption">Edit your caption</label>
+                        <textarea class="form-control mx-3 px-3" style="resize:none" type="text" rows="4" name="caption" id="caption" value="{{ $post->caption }}">{{ $post->caption }}</textarea>
                     </div>
 
                     <div class="form-group row justify-content-center">
@@ -31,7 +31,7 @@
                     </div>
                </form>
            </div>
-           <div class="col-sm-2 col-md-3 col-lg-4"></div>
+           <div class="col-sm-1 col-md-2 col-lg-2"></div>
        </div>
    </div>
 @endsection
