@@ -9,7 +9,7 @@
                 <div class="col-sm-6 col-md-8 col-lg-8 col-12">
                     <h3><b>{{$user2->name}}</b></h3>
                 </div>
-                @if (($post->user_id == $user ->id) or ($user -> type == 'admin'))
+                @if ($post->user_id == $user ->id)
                     <div class="col-sm-3 col-md-2 col-lg-2 col-6">
                         <form action="{{ route('post.edit', $post) }}" enctype="multipart/form-data" method="post">
                             @csrf
@@ -17,6 +17,8 @@
                             <button name="editrecord" class="btn btn-primary" type="submit">&#x270E;</button>
                         </form>
                     </div>
+                    @endif
+                    @if (($post->user_id == $user ->id) or ($user -> type == 'admin'))
                     <div class="col-sm-3 col-md-2 col-lg-2 col-6">
                         <form action="{{ route('post.destroy', $post) }}" enctype="multipart/form-data" method="post">
                             @csrf
