@@ -21,7 +21,16 @@
         <div class="col-md-12">
             <div class="row">
                 @foreach($posts as $post)
-                    <div class="postCard col-sm-6 col-md-4 col-lg-3 card px-3">
+                    <div class="postCard col-sm-6 col-md-6 col-lg-4 col-xl-3 card px-3">
+                            @if ($post->user_id == $user ->id)
+                                <div class="row">
+                                    <form action="{{ route('post.destroy', $post) }}" enctype="multipart/form-data" method="post">
+                                    @csrf
+                                        <input name="_method" type="hidden" value="DELETE">
+                                        <button name="delrecord" class="btn btn-danger" type="submit">&#10007;</button>
+                                    </form>
+                                </div>
+                            @endif
                         <a href="/post/{{$post->id}}">
                             <div class="row p-3">
                                 <img src="/storage/{{$post->image}}" class="w-100">

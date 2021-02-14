@@ -46,9 +46,6 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
-                        <li>
-                            <button class="btn" id="btn" type="button" style="color: white">Secret</button>
-                        </li>
                         <li class="nav-item">
                                 <a class="nav-link" href="/about">About</a>
                         </li>
@@ -76,10 +73,11 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('bookmark.index') }}">Bookmarks</a>
                             </li>
+                             <!-- Relationship - to add 
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('relation.index') }}">Follows</a>
                             </li>
-
+                            -->
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}

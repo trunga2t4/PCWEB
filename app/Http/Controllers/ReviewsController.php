@@ -42,12 +42,13 @@ class ReviewsController extends Controller
         $data = request()->validate([
             'storereview' => 'required',
             'storerating' => 'required',
+            'storepost' => 'required',
         ]);
 
         $user = Auth::user();
         $review = new Reviews();
         $review->user_id = $user->id;
-        $review->post_id = request('storerpost');
+        $review->post_id = request('storepost');
         $review->review = request('storereview');
         $review->rating = request('storerating');
 
@@ -127,8 +128,27 @@ class ReviewsController extends Controller
      * @param  \App\Models\Reviews  $reviews
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Reviews $reviews)
+    public function destroy(Reviews $review)
     {
-        //
+        $tempID = $review->post_id;
+        $user = Auth::user();
+
+        $post = Post::where('id', '=', $review->post_id)->first();
+
+        if (($user->id == $review->user_id) or ($user->type == 'admin')) {
+            $review->delete();
+        }
+
+        $post->review = count(Reviews::where('post_id', '=', $review->post_id)->get());
+
+        if ($post->review == 0) {
+            $post->rating = null;
+        } else {
+            $post->rating = Reviews::where('post_id', '=', $review->post_id)->sum('rating') / $post->review;
+        }
+
+        $postSaved = $post->save();
+
+        return redirect('/post/' . $tempID);
     }
 }

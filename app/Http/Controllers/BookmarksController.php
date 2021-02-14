@@ -22,7 +22,8 @@ class BookmarksController extends Controller
         $posts = DB::table("bookmarks")
             ->where('bookmarks.user_id', '=', $user->id)
             ->join('posts', 'bookmarks.post_id', '=', 'posts.id')
-            ->orderBy('bookmarks.id', 'desc')
+            ->orderBy('bookmarks.trip', 'asc')
+            ->orderBy('bookmarks.date', 'asc')
             ->get();
 
         $postscount = Bookmarks::where('user_id', $user->id)->count();
@@ -51,7 +52,31 @@ class BookmarksController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = request()->validate([
+            'storepost2' => 'required',
+            'storedate' => 'required',
+            'storetrip' => 'required',
+        ]);
+
+        $user = Auth::user();
+        $bookmark = new Bookmarks();
+        $bookmark->user_id = $user->id;
+        $bookmark->post_id = request('storepost2');
+        $bookmark->date = request('storedate');
+        $bookmark->trip = request('storetrip');
+
+        $bookmarkSaved = $bookmark->save();
+
+        $post = Post::where('id', '=', $bookmark->post_id)->first();
+        $post->bookmark = count(Bookmarks::where('post_id', '=', $bookmark->post_id)->get());
+
+        $postSaved = $post->save();
+
+        // if it saved, we send them to the profile page
+        if (($bookmarkSaved) and ($postSaved)) {
+            $tempID = $bookmark->post_id;
+            return redirect()->back();
+        }
     }
 
     /**
@@ -83,9 +108,22 @@ class BookmarksController extends Controller
      * @param  \App\Models\Bookmarks  $bookmarks
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Bookmarks $bookmarks)
+    public function update(Request $request, Bookmarks $bookmark)
     {
-        //
+        $data = request()->validate([
+            'updatedate' => 'required',
+            'updatetrip' => 'required',
+        ]);
+        $bookmark->date = request('updatedate');
+        $bookmark->trip = request('updatetrip');
+
+        $bookmarkSaved = $bookmark->save();
+
+        // if it saved, we send them to the profile page
+        if ($bookmarkSaved) {
+            $tempID = $bookmark->post_id;
+            return redirect()->back();
+        }
     }
 
     /**
@@ -94,8 +132,20 @@ class BookmarksController extends Controller
      * @param  \App\Models\Bookmarks  $bookmarks
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Bookmarks $bookmarks)
+    public function destroy(Bookmarks $bookmark)
     {
-        //
+        $tempID = $bookmark->post_id;
+        $user = Auth::user();
+
+        $post = Post::where('id', '=', $bookmark->post_id)->first();
+
+        if (($user->id == $bookmark->user_id) or ($user->type == 'admin')) {
+            $bookmark->delete();
+        }
+
+        $post->bookmark = count(Bookmarks::where('post_id', '=', $bookmark->post_id)->get());
+        $postSaved = $post->save();
+
+        return redirect()->back();
     }
 }

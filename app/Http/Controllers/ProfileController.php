@@ -13,11 +13,11 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $profile = Profile::where('user_id', $user->id)->first();
-        if ($user->type == 'admin') {
-            $posts = Post::all();
-        } else {
-            $posts = Post::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
-        }
+        //if ($user->type == 'admin') {
+        //    $posts = Post::all();
+        //} else {
+        $posts = Post::where('user_id', $user->id)->orderBy('updated_at', 'desc')->get();
+        //}
 
         $postscount = Post::where('user_id', $user->id)->count();
         return view('profile', [

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -24,9 +25,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('id', 'desc')->take(30)->get();
+        //$posts = Post::orderBy('updated_at', 'desc')->take(30)->get();
+        $user = Auth::user();
+        $posts = Post::orderBy('updated_at', 'desc')->get();
         return view('home', [
-            'posts' => $posts
+            'posts' => $posts,
+            'user' => $user,
         ]);
     }
 

@@ -14,29 +14,31 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+Auth::routes();
+
 Route::get('/', function () {
     return redirect('/home');
 });
 
-Auth::routes();
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
+    Route::get('/profile/create', [App\Http\Controllers\ProfileController::class, 'create']);
 
-Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
-Route::get('/profile/create', [App\Http\Controllers\ProfileController::class, 'create']);
+    Route::post('/profile', [App\Http\Controllers\ProfileController::class, 'store'])->name('profile.store');
+    Route::get('/profile/edit', [App\Http\Controllers\ProfileController::class, 'edit']);
 
-Route::post('/profile', [App\Http\Controllers\ProfileController::class, 'store'])->name('profile.store');
-Route::get('/profile/edit', [App\Http\Controllers\ProfileController::class, 'edit']);
-
-Route::post('/profile/{id}/update', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
-
-
-Route::get('changepassword', [App\Http\Controllers\ChangePasswordController::class, 'index']);
-Route::post('changepassword', [App\Http\Controllers\ChangePasswordController::class, 'store'])->name('changepassword');
+    Route::post('/profile/{id}/update', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 
 
-Route::resource('post', App\Http\Controllers\PostController::class);
-Route::resource('relation', App\Http\Controllers\RelationsController::class);
-Route::resource('review', App\Http\Controllers\ReviewsController::class);
-Route::resource('bookmark', App\Http\Controllers\BookmarksController::class);
+    Route::get('changepassword', [App\Http\Controllers\ChangePasswordController::class, 'index']);
+    Route::post('changepassword', [App\Http\Controllers\ChangePasswordController::class, 'store'])->name('changepassword');
+
+
+    Route::resource('post', App\Http\Controllers\PostController::class);
+    Route::resource('relation', App\Http\Controllers\RelationsController::class);
+    Route::resource('review', App\Http\Controllers\ReviewsController::class);
+    Route::resource('bookmark', App\Http\Controllers\BookmarksController::class);
+});

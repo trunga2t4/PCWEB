@@ -77,8 +77,7 @@ class PostController extends Controller
         $post = Post::where('id', $postID)->first();
         $user = Auth::user();
         $user2 = User::where('id', $post->user_id)->first();
-        $reviews = Reviews::where('post_id', $post->id)
-            ->join('users', 'user_id', '=', 'users.id')->get();
+        $reviews = Reviews::where('post_id', $post->id)->get();
         $yourReview = Reviews::where('post_id', $post->id)->where('user_id', $user->id)->first();
         $yourBookmark = Bookmarks::where('post_id', $post->id)->where('user_id', $user->id)->first();
 
@@ -137,7 +136,8 @@ class PostController extends Controller
         }
 
         if ($updated) {
-            return redirect('/profile');
+            $tempID = $post->id;
+            return redirect('/post/' . $tempID);
         }
     }
 
@@ -154,6 +154,6 @@ class PostController extends Controller
             $post->delete();
         }
 
-        return redirect('/profile');
+        return redirect()->back();
     }
 }
