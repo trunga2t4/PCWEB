@@ -5,8 +5,9 @@
         <div class="col-sm-4 col-md-6 col-lg-7 card"> <img src="/storage/{{ $post->image }}" class="w-100 p-3"> </div>
         <div class="col-sm-8 col-md-6 col-lg-5 ">
             <div class="row p-3 card">
+             <div class="row p-3">
                 <div class="col-sm-6 col-md-8 col-lg-8 col-12">
-                    @if ($post->user_id !== $user ->id) <h3><b>{{$user2->name}}</b></h3> @endif
+                    <h3><b>{{$user2->name}}</b></h3>
                 </div>
                 @if (($post->user_id == $user ->id) or ($user -> type == 'admin'))
                     <div class="col-sm-3 col-md-2 col-lg-2 col-6">
@@ -24,6 +25,7 @@
                         </form>
                     </div>
                 @endif
+                </div>
                 <div class="row p-3 mx-3 mb-3 card" style = "overflow-wrap: break-word;">
                     {{$post->caption}}  
                 </div>
